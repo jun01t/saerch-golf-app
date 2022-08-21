@@ -1,26 +1,39 @@
 import "./Common.css";
 import { Plan } from "./Home";
 
-  type Props = {
-   plans: Plan[];
-   plansCount: number | undefined;
-  };
+type Props = {
+  plans: Plan[];
+  plansCount: number | undefined;
+  error: boolean;
+};
 
-  const Result: React.FC<Props> = ({ plans, plansCount }) => {
-
-     if (plansCount === 0) {
-       return (
-         <div className="wrapper">
-           <div className="ui orange message">
-             <div className="header">
-               ゴルフ場が見つかりませんでした。条件を変更して再度検索してください。
-             </div>
-           </div>
-         </div>
-       );
+const Result: React.FC<Props> = ({ plans, plansCount, error }) => {
+    if (error) {
+        return (
+            <div className="wrapper">
+                <div className="ui negative message">
+                    <i className="close icon"></i>
+                    <div className="header">エラーが発生しました。</div>
+                    検索条件を見直すか、管理者にお問い合わせください。
+                    {error}
+                </div>
+            </div>
+        );
     }
-    
-   const result = plans.map((plan: Plan) => {
+
+    if (plansCount === 0) {
+      return (
+        <div className="wrapper">
+          <div className="ui orange message">
+            <div className="header">
+              ゴルフ場が見つかりませんでした。条件を変更して再度検索してください。
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+  const result = plans.map((plan: Plan) => {
     return (
       <div className="item" key={plan.plan_id}>
         <div className="image">
@@ -74,6 +87,4 @@ import { Plan } from "./Home";
 };
 
 export default Result;
-
-
 
